@@ -2,13 +2,23 @@
 ###一个基于[pymysql](https://github.com/PyMySQL/PyMySQL)模块的mysql操作类
 ####DEMO
 ```python
-#SELECT one
-sql = 'SELECT * FROM '+db.table('articles')+' WHERE id=%s LIMIT 0,1'
+from Man_Db import *
+import time
+if __name__ == '__main__':
+    db = Man_Db({
+            'host': 'localhost',
+            'user': 'root',
+            'password': '123456',
+            'name': 'man_db_read',
+            'charset': 'utf8',
+            'prefix': 'man_'
+        })
+    # SELECT one
+    sql = 'SELECT * FROM '+db.table('articles')+' WHERE id=%s LIMIT 0,1'
     if db.query(sql ,(1,)):
         row = db.fetch_one()
         print row
-
-# SELECT many
+    # SELECT many
     sql = 'SELECT * FROM '+db.table('articles')+' WHERE id>%s LIMIT 0,10'
     if db.query(sql,(1,)):
         rows = db.fetch_all()
