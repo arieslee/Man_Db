@@ -1,8 +1,8 @@
 # Man_Db
-###一个基于pymysql模块的mysql操作类
-[pymysql](https://github.com/PyMySQL/PyMySQL)
-**DEMO**
+###一个基于[pymysql](https://github.com/PyMySQL/PyMySQL)模块的mysql操作类
+####DEMO
 ```python
+#SELECT one
 sql = 'SELECT * FROM '+db.table('articles')+' WHERE id=%s LIMIT 0,1'
     if db.query(sql ,(1,)):
         row = db.fetch_one()
