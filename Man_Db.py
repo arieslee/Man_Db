@@ -8,10 +8,10 @@
 # @Need pymysql lib (Install : pip install PyMySQL)
 import pymysql.cursors
 class Man_Db():
-    _connect = None  # 数据库链接
-    _cursor = None   # 数据库游标
-    _last_query = None
-    _config = {
+    __connect = None  # 数据库链接
+    __cursor = None   # 数据库游标
+    __last_query = None
+    __config = {
         'host': 'localhost',
         'user': '',
         'password': '',
@@ -21,7 +21,7 @@ class Man_Db():
     }    # 数据库配置信息
 
     def __init__(self, config):
-        self._config = config
+        self.__config = config
 
     def connect(self):
         '''
@@ -29,16 +29,17 @@ class Man_Db():
         :return:
         '''
         try:
-            self._connect = pymysql.connect(host=self._config['host'],
-                                            user=self._config['user'],
-                                            password=self._config['password'],
-                                            db=self._config['name'],
-                                            charset=self._config['charset'],
+            self.__connect = pymysql.connect(host=self.__config['host'],
+                                            user=self.__config['user'],
+                                            password=self.__config['password'],
+                                            db=self.__config['name'],
+                                            charset=self.__config['charset'],
                                             cursorclass=pymysql.cursors.DictCursor)
-            self._cursor = self._connect.cursor()
+            self.__cursor = self.__connect.cursor()
             return True
         except pymysql.Error as e:
             print("Mysql Connect Error: %s" % (e,))
+            exit()
             return False
 
     def connected(self):
@@ -46,10 +47,10 @@ class Man_Db():
         数据库是否连接
         :return:
         '''
-        return self._connect is not None
+        return self.__connect is not None
 
     def table(self, td, as_td=None):
-        table = '`' + self._config['name'] + '`.' + '`' + self._config['prefix'] + td + '`'
+        table = '`' + self.__config['name'] + '`.' + '`' + self.__config['prefix'] + td + '`'
         if as_td is not None:
             table = table + ' AS ' + as_td
         return table
@@ -59,21 +60,21 @@ class Man_Db():
         获取当前指针
         :return:
         '''
-        return self._cursor
+        return self.__cursor
 
     def get_config(self):
         '''
         获取当前的配置信息
         :return:
         '''
-        return self._config
+        return self.__config
 
     def get_last_query(self):
         '''
         获取最后一次执行的SQL
         :return:
         '''
-        return self._last_query
+        return self.__last_query
 
     def query(self, sql, params=None):
         '''
@@ -86,9 +87,9 @@ class Man_Db():
             self.connect()
         try:
             if params is not None:
-                result = self._cursor.execute(sql, params)
+                result = self.__cursor.execute(sql, params)
             else:
-                result = self._cursor.execute(sql)
+                result = self.__cursor.execute(sql)
         except pymysql.Error as e:
             result = False
             print("Mysql Error: %s\nOriginal SQL:%s" % (e, sql))
@@ -107,11 +108,11 @@ class Man_Db():
         _values = ",".join(["%s" for i in range(len(columns))])
         _sql = "".join([_prefix, "(", _fields, ") VALUES (", _values, ")"])
         _params = [datas[key] for key in columns]
-        self._last_query = _sql
+        self.__last_query = _sql
         if self.connected() is False:
             self.connect()
         try:
-            self._cursor.execute(_sql, tuple(_params))
+            self.__cursor.execute(_sql, tuple(_params))
             return self.insert_id()
         except pymysql.Error as e:
             print("Mysql Error: %s" % (e,))
@@ -122,7 +123,7 @@ class Man_Db():
         最后一次插入后得到的ID
         :return:
         '''
-        return self._cursor.lastrowid
+        return self.__cursor.lastrowid
 
     def update(self, table, datas, where, params=None):
         '''
@@ -172,14 +173,14 @@ class Man_Db():
         返回结果列表
         :return:
         '''
-        return self._cursor.fetchall()
+        return self.__cursor.fetchall()
 
     def fetch_one(self):
         '''
         返回一行结果，然后游标指向下一行。到达最后一行以后，返回None
         :return:
         '''
-        return self._cursor.fetchone()
+        return self.__cursor.fetchone()
 
     def close(self):
         '''
@@ -187,8 +188,8 @@ class Man_Db():
         :return:
         '''
         try:
-            self._connect.close()
-            self._cursor.close()
+            self.__connect.close()
+            self.__cursor.close()
         except:
             pass
 
@@ -200,7 +201,7 @@ class Man_Db():
         获取结果行数
         :return:
         '''
-        return self._cursor.rowcount
+        return self.__cursor.rowcount
 
     def commit(self):
         '''
@@ -209,7 +210,7 @@ class Man_Db():
         '''
         if self.connected():
             try:
-                self._connect.commit()
+                self.__connect.commit()
             except :
                 pass
 
@@ -220,6 +221,6 @@ class Man_Db():
         '''
         if self.connected():
             try:
-                self._connect.rollback()
+                self.__connect.rollback()
             except:
                 pass

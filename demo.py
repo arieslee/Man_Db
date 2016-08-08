@@ -9,10 +9,6 @@
 from Man_Db import *
 import time
 if __name__ == '__main__':
-    abc = (1,3,2)
-    efd = ('a','c','b')
-    aabb = abc+efd
-    print aabb
     db = Man_Db({
             'host': 'localhost',
             'user': 'root',
