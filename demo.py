@@ -9,7 +9,11 @@
 from Man_Db import *
 import time
 if __name__ == '__main__':
-    db = Man_Db({
+    abc = (1,3,2)
+    efd = ('a','c','b')
+    aabb = abc+efd
+    print aabb
+    '''db = Man_Db({
             'host': 'localhost',
             'user': 'root',
             'password': '123456',
@@ -48,4 +52,4 @@ if __name__ == '__main__':
     # DELETE
     res = db.delete('articles' ,'id=%s',(2,))
     if res is not False:
-        db.commit()
+        db.commit()'''

@@ -110,12 +110,13 @@ class Man_Db():
         '''
         return self._cursor.lastrowid
 
-    def update(self, table, datas, where):
+    def update(self, table, datas, where, params=None):
         '''
         更新数据
         :param table:
         :param datas:
         :param where:
+        :param params:
         :return:
         '''
         _fields = []
@@ -129,7 +130,12 @@ class Man_Db():
             else:
                 _values.append(val)
         _sql = "".join([_prefix, ','.join(str(v) for v in _fields), " WHERE ", where])
-        if self.query(_sql ,tuple(_values)) is not False:
+        if params is not None and isinstance(params, tuple):
+            binds = tuple(_values) + params
+        else:
+            binds = tuple(_values)
+
+        if self.query(_sql, binds) is not False:
             return self.get_row_count()
         return False
 
