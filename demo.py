@@ -13,7 +13,7 @@ if __name__ == '__main__':
     efd = ('a','c','b')
     aabb = abc+efd
     print aabb
-    '''db = Man_Db({
+    db = Man_Db({
             'host': 'localhost',
             'user': 'root',
             'password': '123456',
@@ -44,12 +44,17 @@ if __name__ == '__main__':
         db.commit()
     # UPDATE
     updates = {
-        'title':'This is a test for update'
+        'title':'This is a test for update',
+        'views':{'+',1}
     }
     res = db.update('articles' ,updates ,'id=10')
+    if res is not False:
+        db.commit()
+    # OR UPDATE
+    res = db.update('articles', updates, 'id=:%s',(10,))
     if res is not False:
         db.commit()
     # DELETE
     res = db.delete('articles' ,'id=%s',(2,))
     if res is not False:
-        db.commit()'''
+        db.commit()
