@@ -54,22 +54,25 @@ class Man_Db():
         if as_td is not None:
             table = table + ' AS ' + as_td
         return table
-
-    def get_cursor(self):
+    @property
+    def cursor(self):
         '''
         获取当前指针
         :return:
         '''
         return self.__cursor
-
-    def get_config(self):
+    @property
+    def config(self):
         '''
         获取当前的配置信息
         :return:
         '''
         return self.__config
-
-    def get_last_query(self):
+    @config.setter
+    def config(self, value):
+        self.__config = value
+    @property
+    def last_query(self):
         '''
         获取最后一次执行的SQL
         :return:
@@ -85,6 +88,7 @@ class Man_Db():
         '''
         if self.connected() is False:
             self.connect()
+        self.__last_query = sql
         try:
             if params is not None:
                 result = self.__cursor.execute(sql, params)
