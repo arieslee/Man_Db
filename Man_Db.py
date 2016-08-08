@@ -54,6 +54,20 @@ class Man_Db():
             table = table + ' AS ' + as_td
         return table
 
+    def get_cursor(self):
+        '''
+        获取当前指针
+        :return:
+        '''
+        return self._cursor
+
+    def get_config(self):
+        '''
+        获取当前的配置信息
+        :return:
+        '''
+        return self._config
+
     def get_last_query(self):
         '''
         获取最后一次执行的SQL
