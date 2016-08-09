@@ -23,7 +23,7 @@ if __name__ == '__main__':
         row = db.fetch_one()
         print row
     # SELECT many
-    '''sql = 'SELECT * FROM '+db.table('articles')+' WHERE id>%s LIMIT 0,10'
+    sql = 'SELECT * FROM '+db.table('articles')+' WHERE id>%s LIMIT 0,10'
     if db.query(sql,(1,)):
         rows = db.fetch_all()
         for r in rows:
@@ -53,4 +53,4 @@ if __name__ == '__main__':
     # DELETE
     res = db.delete('articles' ,'id=%s',(2,))
     if res is not False:
-        db.commit()'''
+        db.commit()

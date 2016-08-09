@@ -17,7 +17,7 @@ class Man_Db():
         'password': '',
         'name': '',
         'charset': 'utf8',
-        'prefix':'db_'
+        'prefix': 'db_'
     }    # 数据库配置信息
 
     def __init__(self, config):
@@ -54,6 +54,7 @@ class Man_Db():
         if as_td is not None:
             table = table + ' AS ' + as_td
         return table
+
     @property
     def cursor(self):
         '''
@@ -61,6 +62,7 @@ class Man_Db():
         :return:
         '''
         return self.__cursor
+
     @property
     def config(self):
         '''
@@ -68,9 +70,11 @@ class Man_Db():
         :return:
         '''
         return self.__config
+
     @config.setter
     def config(self, value):
         self.__config = value
+
     @property
     def last_query(self):
         '''
@@ -81,7 +85,7 @@ class Man_Db():
 
     def query(self, sql, params=None):
         '''
-        执行SELECT语句
+        执行SQL
         :param sql:
         :param params:
         :return:
